@@ -16,6 +16,12 @@ class PostTest extends TestCase
         $this->assertTrue(true);
     }
 
+    public function testOpenPostsPage(){
+        $this->visit('/')
+            ->click('Posts')
+            ->seePageIs('/posts');
+    }
+
     public function testWeSeeAListOfPosts()
     {
         factory(App\Post::class)->create([
@@ -28,13 +34,13 @@ class PostTest extends TestCase
 
     public function testWeSeePostsForm()
     {
-        $this->visit('/posts/submit')
+        $this->visit('/posts/create')
             ->see('Submit a post');
     }
 
     public function testPostsFormValidation()
     {
-        $this->visit('/posts/submit')
+        $this->visit('/posts/create')
             ->press('Submit')
             ->see('The title field is required')
             ->see('The slug field is required')
@@ -43,9 +49,9 @@ class PostTest extends TestCase
 
     public function testSubmitPostsToDb()
     {
-        $this->visit('/posts/submit')
+        $this->visit('/posts/create')
             ->type('testing', 'title')
-            ->type('testing', 'slug')
+            ->type('testing'.rand(0, 1000), 'slug')
             ->type('My description', 'description')
             ->press('Submit')
             ->seeInDatabase('posts', ['title' => 'testing']);

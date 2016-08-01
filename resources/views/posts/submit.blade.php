@@ -15,7 +15,7 @@
                     </ul>
                 </div>
             @endif
-            <form action="/posts/submit" method="post">
+            <form action="{{route('posts.store')}}" method="post">
                 {!! csrf_field() !!}
                 <div class="form-group">
                     <label for="title">Title</label>
